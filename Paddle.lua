@@ -1,19 +1,21 @@
-local Paddle = { x, y = 0, 0, speed = 300, width = 60 }
+local Paddle = { x, y = 0, 0, speed = 300, width = 10, height = 60 }
 
-function Paddle:SetInStartPosition()
-  self.x, self.y = love.graphics.getWidth()/2, love.graphics.getHeight() - 20
+function Paddle:Init(xPos, yPos)
+  self.x, self.y = xPos - (self.width / 2), yPos
 end
 
 function Paddle:Move(direction, dt)
-  if direction == "left" and self.x - 6 > 0 then
-    self.x = self.x - (self.speed * dt)
-  elseif direction == "right" and self.x + self.width < love.graphics.getWidth() - 6 then
-    self.x = self.x + (self.speed * dt)
+  local edgeGap = 6
+
+  if direction == "up" and self.y - edgeGap > 0 then
+    self.y = self.y - (self.speed * dt)
+  elseif direction == "down" and self.x + self.width < love.graphics.getWidth() - edgeGap then
+    self.y = self.y + (self.speed * dt)
   end
 end
 
 function Paddle:Draw()
-  love.graphics.rectangle("fill", self.x, self.y, self.width, 10)
+  love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
 end
 
 return Paddle
